@@ -1,0 +1,117 @@
+#https://swagger.io/docs/specification/basic-structure/
+openapi: 3.0.3
+info:
+  title: Recipe Puppy
+  description: 'Recipe Puppy'
+  version: 1.0.0
+externalDocs:
+  description: API Root
+  url: http://www.recipepuppy.com/
+servers:
+- url: http://www.recipepuppy.com/
+  description: Puppy
+tags:
+- name: recipe
+  description: Recipes
+paths:
+  /api/:
+    servers:
+    - url: http://www.recipepuppy.com
+    get:
+      tags:
+      - recipe
+      summary: Get Recipe
+      operationId: getRecipe
+      parameters:
+        - name: i
+          in: query
+          description: Ingredient
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: Query
+          schema:
+            type: string
+        - name: p
+          in: query
+          description: Paging
+          schema:
+            type: integer  
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeList'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+#  https://api.n.exchange/en/api/v1/orders/?page=1&page_size=3&pair=BTCETH&status=11
+components:
+  schemas:
+    RecipeList:
+      type: object
+      properties:
+        title:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recipe"
+    Recipe:
+      type: object
+      required:
+        - href
+      properties:
+        title:
+          type: string
+        href:
+          type: string
+        ingredients:
+          type: string
+        thumbnail:
+          type: string
+    ErrorModel:
+      type: object
+      required:
+      - message
+      - code
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          minimum: 100
+          maximum: 600
+#    {
+#      "amount_base": "0.50000000",
+#      "is_default_rule": false,
+#      "unique_reference": "LOUA3",
+#      "amount_quote": "7.17000000",
+#      "pair": 2,
+#      "withdraw_address": {
+#        "type": "W",
+#        "name": "",
+#        "address": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+#        "currency_code": "BTC"
+#      },
+#      "created_on": "2017-08-16T07:27:04.964665Z",
+#      "from_default_rule": false,
+#      "order_type": 1,
+#      "deposit_address": {
+#        "type": "D",
+#        "name": "",
+#        "address": "0xF00667496B353d77492e0f7167843d5d5802030b",
+#        "currency_code": "ETH"
+#      },
+#      "pair_name": "BTCETH",
+#      "withdrawal_fee": "0.0025",
+#      "withdrawal_fee_quote": "0.03585",
+#      "user_provided_amount": "0"
+#    },
