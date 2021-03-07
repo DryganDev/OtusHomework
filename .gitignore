@@ -90,3 +90,4 @@ fastlane/test_output
 iOSInjectionProject/
 FirstApp/FirstApp.xcodeproj/project.xcworkspace/xcshareddata
 *.xcworkspacedata
+.DS_Store
